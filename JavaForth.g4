@@ -42,7 +42,7 @@ grammar JavaForth;
 
 // starting point for parsing a java file
 compilationUnit
-    :   lang*
+    :   lang* ';'
     ;
 lang
     :   expression
@@ -51,7 +51,7 @@ lang
     |   print
     ;
 print
-    : PRINT expression ';'
+    : PRINT expression
     ;
 
 variableDeclarators

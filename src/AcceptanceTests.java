@@ -1,13 +1,11 @@
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 import java.io.BufferedReader;
-import java.io.File;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 
 import org.junit.After;
 import org.junit.AfterClass;
-import org.junit.Assert;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -79,7 +77,7 @@ public class AcceptanceTests {
 	 * 
 	 */
 	@Test
-	public void testIntDecInit() throws Exception {
+	public void testIntAssignment() throws Exception {
 		assertTranspiles("int x = 10;", "variable x 10 x !");
 	}
 
@@ -194,14 +192,6 @@ public class AcceptanceTests {
 	}
 	
 	/**
-	 * Declares a variable without initializing, throws error
-	 */
-	@Test
-	public void testVarDeclarWithoutInit() {
-		assertTranspiles("a = 10;", "");						
-	}
-	
-	/**
 	 * 
 	 */
 	@Test
@@ -209,12 +199,4 @@ public class AcceptanceTests {
 		assertTranspiles("print int x = 20;", "print variable x 20 x !");								
 	}
 	
-	
-	/**
-	 * 
-	 */
-	@Test
-	public void testTriple() {
-		assertTranspiles("int x = (20 > 3) ? 2 : 4;", "");										
-	}
 }

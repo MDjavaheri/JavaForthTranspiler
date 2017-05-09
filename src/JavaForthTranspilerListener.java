@@ -5,12 +5,11 @@ public class JavaForthTranspilerListener extends JavaForthBaseListener {
     private HashMap<String, Boolean> initializedVars = new HashMap<>();
     
    	@Override public void enterExpression(JavaForthParser.ExpressionContext ctx) {
-
    	}
 
 	@Override public void exitExpression(JavaForthParser.ExpressionContext ctx) {
 		String operator;
-		if (ctx.getChildCount() > 1) {
+		if (ctx.getChildCount() == 3) {
 			operator = ctx.getChild(1).getText();
 			switch(operator) {
 			case "==":
@@ -46,6 +45,10 @@ public class JavaForthTranspilerListener extends JavaForthBaseListener {
 			}
 			output.append(operator + " ");
 		}
+		
+		if (ctx.getChild(0).getText().equals("!")) {
+			output.append("invert ");
+		}
 	}
 
     
@@ -61,7 +64,23 @@ public class JavaForthTranspilerListener extends JavaForthBaseListener {
     	}
     	else {
     		initializedVars.put(out, true);
-    		output.append(out + " " + ctx.variableInitializer().getText() + " " + out + " !");
+    		output.append(out + " ");
+    	}
+    }
+
+    @Override public void exitVariableDeclarator(JavaForthParser.VariableDeclaratorContext ctx) { 
+    	if (ctx.variableInitializer() != null) {
+    		String val = (ctx.variableInitializer().getText().trim().toLowerCase());
+        	String out = ctx.variableDeclaratorId().getText();
+    		switch (val) {
+    		case "true":
+    			val = "-1";
+    			break;
+    		case "false":
+    			val = "0";
+    			break;
+    		}
+    		output.append(out + " !");
     	}
     }
 
@@ -80,22 +99,22 @@ public class JavaForthTranspilerListener extends JavaForthBaseListener {
 		}
 	}
 	
-	@Override public void exitPrimary(JavaForthParser.PrimaryContext ctx) {
+	@Override public void enterPrimary(JavaForthParser.PrimaryContext ctx) {
 		if (ctx.Identifier() != null) {
 			output.append(ctx.Identifier().getText() + " ");
 		}
 	}
 
 	@Override public void enterPrint(JavaForthParser.PrintContext ctx) {
-		output.append("print ");
+		output.append(ctx.PRINT().getText() + " ");
 	}
     
 	@Override public void exitLang(JavaForthParser.LangContext ctx) {
-		output.append("\n");
 	}
 
 	@Override
 	public void exitCompilationUnit(JavaForthParser.CompilationUnitContext ctx) {
+		output.append("\n");
 		System.out.print(output.toString());
 	}
 

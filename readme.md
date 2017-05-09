@@ -19,7 +19,7 @@ A basic transpiler that's input language ise a tiny subset of Java which include
 * Java 8
 
 ### Running
-#### From Eclipse
+#### From Eclipse (Preferred)
 Just hit the big green button.
 #### From the Command Line
 ```
@@ -29,6 +29,7 @@ $ javac JavaForth*.java
 $ java JavaForthRunner args*
 ```
 `args` can be a path to an input file, but, if empty, the program will just use the default `input.txt`. Given only one parameter, all input will be printed to console, but one may provide an additional `true` parameter for it to be saved to `output.txt` instead and a third parameter (also optional) for an output file path, as well.
+If the command line fails, Eclipse is recommended.
 #### From Another Class
 In addition to the above, there is another override of `main` that allows one to simply pass a string to be transpiled, but the current implementation follows the above file creation pattern and does not return it directly.  
 ### Testing
