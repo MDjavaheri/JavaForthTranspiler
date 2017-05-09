@@ -45,10 +45,10 @@ compilationUnit
     :   lang* ';'
     ;
 lang
-    :   expression
+    :   print
     |   variableDeclarators
     |   literal
-    |   print
+    |   expression
     ;
 print
     : PRINT expression

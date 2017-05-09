@@ -59,9 +59,6 @@ public class JavaForthTranspilerListener extends JavaForthBaseListener {
     		initializedVars.put(out, false);
     		output.append(out);
     	}
-    	else if (((JavaForthParser.VariableDeclaratorsContext) ctx.getParent()).primitiveType() == null) {
-//    		throw UninitializedVariableException;
-    	}
     	else {
     		initializedVars.put(out, true);
     		output.append(out + " ");
@@ -101,7 +98,14 @@ public class JavaForthTranspilerListener extends JavaForthBaseListener {
 	
 	@Override public void enterPrimary(JavaForthParser.PrimaryContext ctx) {
 		if (ctx.Identifier() != null) {
-			output.append(ctx.Identifier().getText() + " ");
+			String var = ctx.Identifier().getText();
+//			if (!initializedVars.containsKey(var)) {
+//				output.append("ERROR: Cannot declare uninitialized variable " + var);			
+//			}
+//			else {
+				initializedVars.put(var, true);
+				output.append(var + " ");
+//			}
 		}
 	}
 
