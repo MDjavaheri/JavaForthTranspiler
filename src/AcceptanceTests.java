@@ -7,6 +7,7 @@ import java.nio.file.Paths;
 
 import org.junit.After;
 import org.junit.AfterClass;
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -63,11 +64,12 @@ public class AcceptanceTests {
 	 * @param input
 	 * @param expected
 	 */
-	public void assertTranspiles(String input, String expected) {
+	public void assertTranspiles(String input, String expectedOutput) {
 		try {
 			JavaForthRunner.main(input, true);
-			String output = br.readLine();
-			assertEquals(output, expected);
+			String readInput = br.readLine().split("Java:")[1].trim();
+			String output = br.readLine().split("Forth:")[1].trim();
+			assertEquals(input + expectedOutput, readInput + output);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -112,23 +114,28 @@ public class AcceptanceTests {
 	public void testExpression3() {
 		assertTranspiles("100 - (4 * 20) / 5 - (100 % 25);", "100 4 20 * 5 / - 100 % 25 -");		
 	}
-	
 	/**
 	 * 
 	 */
 	@Test
-	public void testVarInit() {
-		assertTranspiles(";", "");		
+	public void testSyntacticSugar() {
+		assertTranspiles("int x = 10;\nx++;", ""); //TODO how to do this?	
 	}
-	
+
 	/**
 	 * 
 	 */
 	@Test
-	public void testVarDeclar() {
-		assertTranspiles(";", "");				
+	public void testBooleanTrue() {
+		assertTranspiles("boolean hey = true;", "variable hey 1 hey !");		
 	}
-	
+	/**
+	 * 
+	 */
+	@Test
+	public void testBooleanFalse() {
+		assertTranspiles("boolean bye = false;", "variable bye 0 bye !");		
+	}
 	
 	/**
 	 * Declares a variable without initializing, throws error
@@ -151,7 +158,7 @@ public class AcceptanceTests {
 	 * 
 	 */
 	@Test
-	public void testMix() {
-		
+	public void testTriple() {
+		assertTranspiles("int x = (20 > 3) ? 2 : 4;", "");										
 	}
 }

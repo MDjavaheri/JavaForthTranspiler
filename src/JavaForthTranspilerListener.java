@@ -4,9 +4,7 @@ public class JavaForthTranspilerListener extends JavaForthBaseListener {
     private StringBuilder output = new StringBuilder();
     private HashMap<String, Boolean> initializedVars = new HashMap<>();
     
-   	@Override public void enterExpression(JavaForthParser.ExpressionContext ctx) {
-        System.out.println(ctx.toString());
-    }
+   	@Override public void enterExpression(JavaForthParser.ExpressionContext ctx) {    }
 
     
     @Override public void enterVariableDeclarator(JavaForthParser.VariableDeclaratorContext ctx) { 
@@ -40,7 +38,7 @@ public class JavaForthTranspilerListener extends JavaForthBaseListener {
 
 	@Override
 	public void exitCompilationUnit(JavaForthParser.CompilationUnitContext ctx) {
-		System.out.println(output.toString());
+		System.out.print(output.toString());
 	}
 
 }
