@@ -1,3 +1,1 @@
-int x = 10;
-x++;
-boolean hey = true;
+(2 = 10) || (3 > 2);

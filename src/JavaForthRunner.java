@@ -11,17 +11,16 @@ import org.antlr.v4.runtime.tree.ParseTreeWalker;
 @SuppressWarnings("deprecation")
 public class JavaForthRunner {
 	private static String defaultFile = "input.txt";
-	private static String targetString;
-	private static Path targetPath;
+	private static Path inputPath;
 	public static void main(String[] args) throws Exception {
-		targetString = (args.length == 0) ? defaultFile : args[0];
 
 		if (args.length > 1 && args[1].trim().toLowerCase().equals("true")) {
-			System.setOut(new PrintStream(new File("output.txt")));				
+			String outputPath = (args.length > 2) ? args[2] : "";
+			System.setOut(new PrintStream(new File(outputPath + "output.txt")));				
 		}
 		
-		targetPath = Paths.get(targetString);
-		Files.lines(targetPath).forEach(line -> {
+		inputPath = Paths.get((args.length == 0) ? defaultFile : args[0]);
+		Files.lines(inputPath).forEach(line -> {
 			transpile(line);
 		});
 	}
@@ -44,6 +43,19 @@ public class JavaForthRunner {
 	public static void main(String line, boolean toFile) throws Exception {
 		if (toFile) {
 			System.setOut(new PrintStream(new File("output.txt")));				
+		}
+		transpile(line);
+	}
+	
+	/**
+	 * Transpiles a single line of code and writes to file at given location
+	 * @param line a single line of code to transpile
+	 * @param toFile true if should write to file, false if to console
+	 * @throws Exception
+	 */
+	public static void main(String line, boolean toFile, String outputPath) throws Exception {
+		if (toFile) {
+			System.setOut(new PrintStream(new File(outputPath + "output.txt")));				
 		}
 		transpile(line);
 	}

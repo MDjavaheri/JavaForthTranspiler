@@ -79,7 +79,7 @@ public class AcceptanceTests {
 	 * 
 	 */
 	@Test
-	public void testIntLiteral() throws Exception {
+	public void testIntDecInit() throws Exception {
 		assertTranspiles("int x = 10;", "variable x 10 x !");
 	}
 
@@ -87,9 +87,37 @@ public class AcceptanceTests {
 	 * 
 	 */
 	@Test
-	public void testIntVar() {
+	public void testIntVarDec() {
 		assertTranspiles("int x;", "variable x");		
 	}
+	
+	
+	
+	/**
+	 * Tests integer literal
+	 */
+	@Test
+	public void testIntLiteral() {
+		assertTranspiles("10", "10");		
+	}
+	
+	/**
+	 * Tests boolean literal true to return -1
+	 */
+	@Test
+	public void testBoolLiteralTrue() {
+		assertTranspiles("true", "-1");		
+	}
+	
+	/**
+	 * Tests boolean literal false to return 0
+	 */
+	@Test
+	public void testBoolLiteralFalse() {
+		assertTranspiles("false", "0");		
+	}
+	
+	
 	
 	/**
 	 * 
@@ -112,28 +140,56 @@ public class AcceptanceTests {
 	 */
 	@Test
 	public void testExpression3() {
-		assertTranspiles("100 - (4 * 20) / 5 - (100 % 25);", "100 4 20 * 5 / - 100 % 25 -");		
+		assertTranspiles("100 - (4 * 20) / 5 - (100 % 25);", "100 4 20 * 5 / - 100 25 % -");		
+	}
+	/**
+	 * 
+	 */
+	@Test
+	public void testExpression4() {
+		assertTranspiles("5 == 5;", "5 5 =");		
 	}
 	/**
 	 * 
 	 */
 	@Test
 	public void testSyntacticSugar() {
-		assertTranspiles("int x = 10;\nx++;", ""); //TODO how to do this?	
+		assertTranspiles("x += 10;", "x 10 +!"); //TODO how to do this?	
+	}
+	/**
+	 * 
+	 */
+	@Test
+	public void testAnd() {
+		assertTranspiles("(2 = 10) && (3 > 2)", "2 10 = 3 2 > and");
+	}
+	/** 
+	 * 
+	 */
+	@Test
+	public void testOr() {
+		assertTranspiles("(2 = 10) || (3 > 2);", "2 10 = 3 2 > or");
+	}
+	/**
+	 * 
+	 */
+	@Test
+	public void testNot() {
+		assertTranspiles("!(2 = 10)", "2 10 = invert");
 	}
 
 	/**
 	 * 
 	 */
 	@Test
-	public void testBooleanTrue() {
-		assertTranspiles("boolean hey = true;", "variable hey 1 hey !");		
+	public void testBoolVarDecTrue() {
+		assertTranspiles("boolean hey = true;", "variable hey -1 hey !");		
 	}
 	/**
 	 * 
 	 */
 	@Test
-	public void testBooleanFalse() {
+	public void testBooleanVarDecFalse() {
 		assertTranspiles("boolean bye = false;", "variable bye 0 bye !");		
 	}
 	
@@ -142,7 +198,7 @@ public class AcceptanceTests {
 	 */
 	@Test
 	public void testVarDeclarWithoutInit() {
-		assertTranspiles("a = 10;;", "");						
+		assertTranspiles("a = 10;", "");						
 	}
 	
 	/**

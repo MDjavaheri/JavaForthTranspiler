@@ -45,8 +45,7 @@ compilationUnit
     :   lang*
     ;
 lang
-    :   statement
-    |   expressionList
+    :   expression
     |   variableDeclarators
     |   literal
     |   print
@@ -76,54 +75,16 @@ primitiveType
     |   'int'
     ;
 
-qualifiedNameList
-    :   qualifiedName (',' qualifiedName)*
-    ;
-
-qualifiedName
-    :   Identifier ('.' Identifier)*
-    ;
-
 literal
     :   IntegerLiteral
     |   BooleanLiteral
     |   'null'
     ;
 
-// STATEMENTS / BLOCKS
-
-statement
-    :   ';'
-    |   statementExpression ';'
-    |   Identifier ':' statement
-    ;
-
-resourceSpecification
-    :   '(' resources ';'? ')'
-    ;
-
-resources
-    :   resource (';' resource)*
-    ;
-
-resource
-    :   variableDeclaratorId '=' expression
-    ;
 // EXPRESSIONS
-
-expressionList
-    :   expression (',' expression)*
-    ;
-
-statementExpression
-    :   expression
-    ;
 
 expression
     :   primary
-    |   expression '.' Identifier
-    |   expression '[' expression ']'
-    |   expression '(' expressionList? ')'
     |   expression ('++' | '--')
     |   ('+'|'-'|'++'|'--') expression
     |   ('~'|'!') expression
@@ -157,15 +118,10 @@ expression
 
 primary
     :   '(' expression ')'
-    |   'this'
-    |   'super'
     |   literal
     |   Identifier
     ;
 
-arguments
-    :   '(' expressionList? ')'
-    ;
 
 // LEXER
 
